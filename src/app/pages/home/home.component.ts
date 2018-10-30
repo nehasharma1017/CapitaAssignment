@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var jQuery:any;
 @Component({
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
   data: any;
   titleError:false;
   descError:false;
-  constructor(private _dataService: DataService) { }
+  constructor(private _dataService: DataService,private _toastr: ToastrService) { }
 
   ngOnInit() {
     this.getData();
@@ -58,6 +59,7 @@ export class HomeComponent implements OnInit {
     let promiseObj = this._dataService.insertData(payLoad);
     promiseObj.then((res: any) => {
       jQuery('#myModal').modal('hide');
+      this._toastr.success('Item added successfully');
       this.getData();
       console.log("inserted-----", res);
     });
@@ -73,6 +75,7 @@ export class HomeComponent implements OnInit {
     id = id[id.length - 1]
     let promiseObj = this._dataService.deleteData(id);
     promiseObj.then((res: any) => {
+      this._toastr.success('Item deleted successfully');
       this.getData();
       console.log("deleted-----", res);
     });
